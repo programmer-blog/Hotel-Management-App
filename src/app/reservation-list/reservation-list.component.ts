@@ -12,16 +12,22 @@ import { HomeComponent } from '../home/home.component';
   templateUrl: './reservation-list.component.html',
   styleUrl: './reservation-list.component.css'
 })
+
 export class ReservationListComponent {
   reservations: Reservation[] = [];
 
   constructor(private reservationService: ReservationService) {}
 
   ngOnInit() {
-    this.reservations = this.reservationService.getReservations();
+    this.reservationService.getReservations().subscribe(reservations => {
+      this.reservations = reservations
+    });
   }
 
   deleteReservation(id: string){
-    this.reservationService.deleteReservation(id);
+    this.reservationService.deleteReservation(id).subscribe(()=> {
+      console.log('Reservation deleted');
+      
+    });
   }
 }
